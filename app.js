@@ -66,6 +66,7 @@ $(function () {
         alertDiv.append($("<h4/>", {"class": "alert-heading"})
             .append($("<a/>", {
                 "href": "https://www.uphillathlete.com/diy-anaerobic-test/",
+                "target": "_blank",
                 "text": "The 10 Percent Test"
             })));
 
@@ -77,6 +78,7 @@ $(function () {
         if (isAerobicDeficient) {
             alertDiv.append($("<a/>", {
                 "href": "https://www.uphillathlete.com/aerobic-deficiency-syndrome/",
+                "target": "_blank",
                 "text": "Aerobic Deficiency Syndrome (ADS)",
             }));
         }
