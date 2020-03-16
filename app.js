@@ -11,7 +11,7 @@ $(function () {
         const row = $("<tr/>")
             .append($("<td/>", {text: zone.name}))
             .append($("<td/>", {text: zone.lowHr}))
-            .append($("<td/>", {text: zone.highHr}));
+            .append($("<td/>", {text: zone.highHr > 0 ? zone.highHr : "Max"}));
 
         $(container).append(row);
     };
@@ -87,7 +87,8 @@ $(function () {
         const antInput = $("#inputAntHr");
         const maxHrInput = $("#inputMaxHr");
 
-        antInput.attr("max", maxHrInput.val());
+        // Allow 0 to be used if max HR is unknown
+        antInput.attr("max", maxHrInput.val() > 0 ? maxHrInput.val() : null);
         aetInput.attr("max", antInput.val());
     };
 
