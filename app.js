@@ -58,7 +58,7 @@ $(function () {
             `Your current AnT/AeT diff is ${aetDiff}%. You can benefit from higher intensity workouts.`;
         const alertClass = isAerobicDeficient ? "alert-warning" : "alert-success";
 
-        let alertDiv = $("<div/>", {
+        const alertDiv = $("<div/>", {
             "class": "alert " + alertClass,
             "role": "alert",
         });
@@ -86,10 +86,10 @@ $(function () {
         resultsContainer.append(alertDiv);
     };
 
-    const initValidation = function () {
-        const aetInput = $("#inputAetHr");
-        const antInput = $("#inputAntHr");
-        const maxHrInput = $("#inputMaxHr");
+    const configureValidation = function () {
+        const aetInput = $("#aet");
+        const antInput = $("#ant");
+        const maxHrInput = $("#hrmax");
 
         // Allow 0 to be used if max HR is unknown
         antInput.attr("max", maxHrInput.val() > 0 ? maxHrInput.val() : null);
@@ -97,17 +97,25 @@ $(function () {
     };
 
     $('#uphill-form input').on("keyup", function (e) {
-        initValidation()
+        configureValidation()
     });
 
-    $('#uphill-form').on('submit', function (e) {
-        const aetHr = $("#inputAetHr").val();
-        const antHr = $("#inputAntHr").val();
-        const maxHr = $("#inputMaxHr").val();
+    const initForm = function (aet, ant, hrmax) {
+        $("#aet").val(aet);
+        $("#ant").val(ant);
+        $("#hrmax").val(hrmax);
 
-        initValidation();
-        handleInput(maxHr, aetHr, antHr);
+        configureValidation();
 
-        return false;
-    });
+        if (aet > 0 && ant > 0) {
+            handleInput(hrmax, aet, ant);
+        }
+    };
+
+
+    const initPage = function () {
+        const params = new URLSearchParams(window.location.search);
+        initForm(params.get("aet"), params.get("ant"), params.get("hrmax") || 0);
+    };
+    initPage();
 });
