@@ -54,7 +54,7 @@ $(function () {
         const aetDiff = calcDiffPercent(aetHr, antHr);
         const isAerobicDeficient = aetDiff > 10.0;
         const adsMsg = isAerobicDeficient ?
-            `Your current AnT/AeT diff is ${aetDiff}% suggesting that you might suffer from ADS. You can gain from mainly training in Z2 (just under AeT) until this value is above below 10%.` :
+            `Your current AnT/AeT diff is ${aetDiff}% suggesting that you might suffer from ADS. You can gain from mainly training in Z2 (just under AeT) until this value is below 10%.` :
             `Your current AnT/AeT diff is ${aetDiff}%. You can benefit from higher intensity workouts.`;
         const alertClass = isAerobicDeficient ? "alert-warning" : "alert-success";
 
