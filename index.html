@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+
+    <style>
+        .container {
+            padding: 1rem;
+        }
+    </style>
+
+    <title>Uphill Athlete Training Zones</title>
+</head>
+<body>
+
+<div class="container">
+    <h1>Uphill Athlete Training Zones</h1>
+
+    <form id="uphill-form">
+        <div class="form-group">
+            <label for="inputMaxHr">Max Heart Rate</label>
+            <input id="inputMaxHr" type="number" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="inputAntHr">Anaerobic Threshold (AnT)</label>
+            <input id="inputAntHr" type="number" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="inputAetHr">Aerobic Threshold (AeT)</label>
+            <input id="inputAetHr" type="number" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit">Calculate training zones</button>
+        </div>
+    </form>
+
+    <div id="results">
+    </div>
+
+    <h2>Useful links</h2>
+    <ul>
+        <li><a href="https://www.uphillathlete.com/">Uphill Athlete</a></li>
+        <li><a href="https://www.uphillathlete.com/aerobic-deficiency-syndrome/">Aerobic Deficiency Syndrome (ADS)</a></li>
+        <li><a href="https://www.uphillathlete.com/when-to-add-intensity-training/">When and How toAdd High-Intensity Training: The 10 Percent Test</a></li>
+    </ul>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
