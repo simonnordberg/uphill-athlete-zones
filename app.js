@@ -74,10 +74,12 @@ $(function () {
             "text": adsMsg,
         }));
 
-        alertDiv.append($("<a/>", {
-            "href": "https://www.uphillathlete.com/aerobic-deficiency-syndrome/",
-            "text": "Aerobic Deficiency Syndrome (ADS)",
-        }));
+        if (isAerobicDeficient) {
+            alertDiv.append($("<a/>", {
+                "href": "https://www.uphillathlete.com/aerobic-deficiency-syndrome/",
+                "text": "Aerobic Deficiency Syndrome (ADS)",
+            }));
+        }
 
         resultsContainer.append(alertDiv);
     };
