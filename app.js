@@ -16,13 +16,13 @@ $(function () {
         $(container).append(row);
     };
 
-    const calcZones = function (maxHr, aetHr, antHr) {
+    const calcZones = function (aet, ant, hrmax) {
         return [
-            buildZone("Recovery", 0, calcPercentage(aetHr, 80)),
-            buildZone("Z1", calcPercentage(aetHr, 80) + 1, calcPercentage(aetHr, 90)),
-            buildZone("Z2", calcPercentage(aetHr, 90) + 1, calcPercentage(aetHr, 100)),
-            buildZone("Z3", calcPercentage(aetHr, 100) + 1, calcPercentage(antHr, 100)),
-            buildZone("Z4", calcPercentage(antHr, 100) + 1, calcPercentage(maxHr, 100)),
+            buildZone("Recovery", 0, calcPercentage(aet, 80)),
+            buildZone("Z1", calcPercentage(aet, 80) + 1, calcPercentage(aet, 90)),
+            buildZone("Z2", calcPercentage(aet, 90) + 1, calcPercentage(aet, 100)),
+            buildZone("Z3", calcPercentage(aet, 100) + 1, calcPercentage(ant, 100)),
+            buildZone("Z4", calcPercentage(ant, 100) + 1, calcPercentage(hrmax, 100)),
         ]
     };
 
@@ -38,7 +38,9 @@ $(function () {
 
     const resultsContainer = $("#results");
 
-    const handleInput = function (maxHr, aetHr, antHr) {
+    const handleInput = function (aet, ant, hrmax) {
+        trackSubmit(aet, ant, hrmax);
+
         const zonesContainer = $("<table/>", {
             "id": "zones",
             "class": "table table-striped",
@@ -46,12 +48,12 @@ $(function () {
         resultsContainer.empty();
         resultsContainer.append(zonesContainer);
 
-        const zones = calcZones(maxHr, aetHr, antHr);
+        const zones = calcZones(aet, ant, hrmax);
         zones.forEach(function (zone) {
             drawZone(zonesContainer, zone);
         });
 
-        const aetDiff = calcDiffPercent(aetHr, antHr);
+        const aetDiff = calcDiffPercent(aet, ant);
         const isAerobicDeficient = aetDiff > 10.0;
         const adsMsg = isAerobicDeficient ?
             `Your current AnT/AeT diff is ${aetDiff}% suggesting that you might suffer from ADS. You can gain from mainly training in Z2 (just under AeT) until this value is below 10%.` :
@@ -87,35 +89,48 @@ $(function () {
     };
 
     const configureValidation = function () {
-        const aetInput = $("#aet");
-        const antInput = $("#ant");
-        const maxHrInput = $("#hrmax");
+        const aet = $("#aet");
+        const ant = $("#ant");
+        const hrmax = $("#hrmax");
 
         // Allow 0 to be used if max HR is unknown
-        antInput.attr("max", maxHrInput.val() > 0 ? maxHrInput.val() : null);
-        aetInput.attr("max", antInput.val());
+        ant.attr("max", hrmax.val() > 0 ? hrmax.val() : null);
+        aet.attr("max", ant.val());
     };
 
     $('#uphill-form input').on("keyup", function (e) {
         configureValidation()
     });
 
-    const initForm = function (aet, ant, hrmax) {
-        $("#aet").val(aet);
-        $("#ant").val(ant);
-        $("#hrmax").val(hrmax);
-
+    $('#uphill-form').on('submit', function (e) {
+        e.preventDefault();
         configureValidation();
 
+        const aet = $("#aet").val();
+        const ant = $("#ant").val();
+        const hrmax = $("#hrmax").val();
+
         if (aet > 0 && ant > 0) {
-            handleInput(hrmax, aet, ant);
+            handleInput(aet, ant, hrmax);
         }
+
+        return false;
+    });
+
+    const initAnalytics = function() {
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','tzga');
+
+        tzga('create', 'UA-59609997-2', 'auto');
+        tzga('send', 'pageview');
     };
 
-
-    const initPage = function () {
-        const params = new URLSearchParams(window.location.search);
-        initForm(params.get("aet"), params.get("ant"), params.get("hrmax") || 0);
+    const trackSubmit = function(aet, ant, hrmax) {
+        let url = document.location.pathname + `?hrmax=${hrmax}&ant=${ant}&aet=${aet}`
+        tzga('send', 'pageview', url);
     };
-    initPage();
+
+    initAnalytics();
 });
