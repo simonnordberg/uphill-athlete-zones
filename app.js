@@ -132,5 +132,5 @@ $(function () {
         tzga('send', 'pageview', url);
     };
 
-    initAnalytics();
+    //initAnalytics();
 });
